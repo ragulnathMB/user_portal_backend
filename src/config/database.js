@@ -1,10 +1,10 @@
 const sql = require('mssql');
 
 const userDBConfig = {
-  user: process.env.DB_USER || 'testuser',
-  password: process.env.DB_PASSWORD || '1234',
-  server: process.env.DB_SERVER || 'localhost',
-  database: process.env.DB_NAME || 'UserDB',
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD ,
+  server: process.env.DB_SERVER,
+  database: process.env.DB_NAME,
   options: {
     encrypt: false,
     trustServerCertificate: true
@@ -26,7 +26,8 @@ const initializeDatabase = async () => {
     return userDBPool;
   } catch (err) {
     console.error('Error initializing user database pool:', err);
-    process.exit(1);
+    console.error('Continuing without database connection');
+    return null;
   }
 };
 

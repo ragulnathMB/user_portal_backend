@@ -1,7 +1,7 @@
-const { app, initializeApp } = require('./src/app');
-const { closeDatabase } = require('./src/config/database');
+const { app, initializeApp } = require('./app');
+const { closeDatabase } = require('./config/database');
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3005;
 
 const startServer = async () => {
   try {

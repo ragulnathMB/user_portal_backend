@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
-const errorHandler = require('./middleware/errorHandler');
+const userRoutes = require('./routes/user.routes');
+const errorHandler = require('./middleware/error_handler');
 const { initializeDatabase } = require('./config/database');
 
 const app = express();
@@ -25,8 +25,7 @@ const initializeApp = async () => {
     await initializeDatabase();
     console.log('User Portal application initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize application:', error);
-    process.exit(1);
+    console.error('Failed to initialize database, continuing without DB:', error);
   }
 };
 
