@@ -21,6 +21,9 @@ router.get('/tenant/:tenantID/users', userController.getUsersByTenantId);
 // Import users
 router.post('/:tenantId/import-users', userController.importUsers);
 
+// user authentication
+router.post('/login/userValidation',userController.validateUser)
+
 // Health check
 router.get('/health', (req, res) => {
   res.json({ 

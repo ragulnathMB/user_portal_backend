@@ -1,7 +1,9 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const { app, initializeApp } = require('./app');
 const { closeDatabase } = require('./config/database');
 
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT;
 
 const startServer = async () => {
   try {

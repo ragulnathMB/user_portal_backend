@@ -95,6 +95,34 @@ class UserController {
       errorResponse(res, 'Failed to fetch users', 500);
     }
   }
+  async validateUser(req, res) {
+    try {
+      const userID = req.body.userID;  // userID in URL
+   
+
+      const data = await userService.validateUser(userID);
+
+      // Use a secure and unique value in production (e.g., a JWT)
+      const cookieValue = data;
+
+      
+      res.cookie('MyAppSession', cookieValue, {
+        httpOnly: true,
+        secure: true,            // Required for SameSite=None
+        sameSite: 'None',        // Allow cookie with cross-site requests
+        maxAge: 60 * 24 * 60 * 60 * 1000 // 2 months
+      });
+
+      successResponse(res, data, 'User validated and cross-site cookie set');
+    } catch (error) {
+      if (error.statusCode === 404) {
+        return errorResponse(res, error.message, 404);
+      }
+      console.error('Validate user error:', error);
+      errorResponse(res, error.message || 'Server error', 500);
+    }
+  }
+
 }
 
 module.exports = new UserController();

@@ -1,5 +1,5 @@
 const { getDBPool, sql } = require('../config/database');
-
+const axios = require('axios')
 class UserService {
   async createUser(userData) {
     const { UserID, EmpID, TenentID, Name, Status } = userData;
@@ -129,6 +129,48 @@ class UserService {
       .query('SELECT * FROM Users WHERE TenentID = @tenantID');
     
     return result.recordset;
+  }
+  async validateUser(userID) {
+    const pool = getDBPool();
+
+    // Fetch the user with Status='Enabled'
+    console.log(userID+'you');
+    const result = await pool.request()
+      .input('UserID', sql.VarChar(50), userID)
+      .query(`SELECT EmpID, CompanyID, TenentID, Status FROM Users WHERE UserID = @UserID AND Status = 'Enabled'`);
+
+    const user = result.recordset[0];
+
+    if (!user) {
+      const error = new Error('User not found or disabled');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // Make POST call to TenantPortal with TenentID in the payload/body
+    const tenantApiUrl = `http://localhost:3001/api/login/userValidation`;
+
+    let tenantCredentials;
+    try {
+      const response = await axios.post(tenantApiUrl, { TenantID: user.TenentID });
+      tenantCredentials = response.data; // Should have { username, password }
+    } catch (err) {
+      const error = new Error('Failed to fetch tenant credentials');
+      error.statusCode = 500;
+      throw error;
+    }
+
+    // Return combined result
+    return {
+      context:{
+        CompanyID: user.CompanyID,
+        Language:'English'
+      },
+      EmpID: user.EmpID,
+      TenentID: user.TenentID,
+      tenantUsername: tenantCredentials.username,
+      tenantPassword: tenantCredentials.password,
+    };
   }
 }
 
