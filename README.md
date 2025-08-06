@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is the backend service for the User Portal, providing RESTful APIs for user management and authentication. It connects to a Microsoft SQL Server database, validates users via an external Tenant Portal API, and exposes endpoints under `/api`.
+This is the backend service for the User Portal, providing RESTful APIs for user management and authentication. It connects to a Microsoft SQL Server database.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This is the backend service for the User Portal, providing RESTful APIs for user
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url> user_portal
+   git clone https://github.com/ragulnathMB/user_portal_backend.git
    cd user_portal
    ```
 2. Install dependencies:
@@ -89,6 +89,3 @@ The server listens for `SIGINT` and `SIGTERM` to close HTTP and database connect
 4. Push to branch: `git push origin feature/my-feature`
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License.
