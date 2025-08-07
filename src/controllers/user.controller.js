@@ -122,8 +122,8 @@ class UserController {
         sameSite: 'None',        // Allow cookie with cross-site requests
         maxAge: 60 * 24 * 60 * 60 * 1000 // 2 months
       });
+      res.status(200).json({ message: 'User validated successfully' });
 
-      successResponse(res, data, 'User validated and cross-site cookie set');
     } catch (error) {
       if (error.statusCode === 404) {
         return errorResponse(res, error.message, 404);
