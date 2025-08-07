@@ -74,6 +74,16 @@ class UserController {
     }
   }
 
+  async getUserWorkingCompanies(req, res) {
+    try {
+      const usersWorkingCompanies = await userService.getUserWorkingCompanies(req.body.userID);
+      successResponse(res, usersWorkingCompanies, 'Users retrieved successfully');
+    } catch (error) {
+      console.error('Get all users error:', error);
+      errorResponse(res, error.message, 500);
+    }
+  }
+
   async importUsers(req, res) {
     try {
       const { tenantId } = req.params;

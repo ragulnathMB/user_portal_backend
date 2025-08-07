@@ -130,6 +130,22 @@ class UserService {
     
     return result.recordset;
   }
+
+  async getUserWorkingCompanies(userID) {
+    try {
+      const pool = await getDBPool();
+      const result = await pool.request()
+        .input('userID', sql.VarChar, userID)
+        .query('SELECT CompanyId FROM UserCompanies WHERE UserId = @userID');
+
+      const companyList = result.recordset.map(row => row.CompanyId);
+
+      return companyList;
+    } catch (err) {
+      console.error('Error in getUserWorkingCompanies:', err);
+      throw err;
+    }
+  }
   async validateUser(userID) {
     const pool = getDBPool();
 

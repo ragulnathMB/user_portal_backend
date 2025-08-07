@@ -17,6 +17,7 @@ router.put('/userStatus/disable', userController.disableUsers);
 router.get('/users', userController.getAllUsers);
 router.get('/users/tenant/:tenantId', userController.getUsersByTenant);
 router.get('/tenant/:tenantID/users', userController.getUsersByTenantId);
+router.get('/getWorkingCompanies',userController.getUserWorkingCompanies)
 
 // Import users
 router.post('/:tenantId/import-users', userController.importUsers);
